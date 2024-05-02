@@ -19,7 +19,7 @@ func (h handler) GetbyKey(c echo.Context) error {
 		}
 	}
 
-	data, err := h.repo.FindTransaction(ctx, key)
+	data, err := h.repo.GET(ctx, key)
 	if errors.Is(err, util.ErrorNotFound) {
 		return util.CustomError{
 			ErrorType: util.ErrBadRequest,
@@ -40,7 +40,7 @@ func (h handler) GetbyKey(c echo.Context) error {
 
 func (h handler) GetALL(c echo.Context) error {
 	ctx := c.Request().Context()
-	data, err := h.repo.GetALLTrans(ctx)
+	data, err := h.repo.GetALL(ctx)
 	if errors.Is(err, util.ErrorNotFound) {
 		return util.CustomError{
 			ErrorType: util.ErrBadRequest,

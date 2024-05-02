@@ -1,11 +1,9 @@
 package transaction_test
 
 import (
-	"atp/payment/pkg/adapter/sqLite"
+	"atp/payment/pkg/adapter/levelDB"
 	"atp/payment/pkg/repository/transaction"
-	"atp/payment/pkg/utils/echos/util"
 	"context"
-	"errors"
 	"log"
 	"path/filepath"
 	"runtime"
@@ -13,29 +11,27 @@ import (
 	"testing"
 )
 
-func Test_FindALL(t *testing.T) {
+func Test_LastKey(t *testing.T) {
 	_, b, _, _ := runtime.Caller(0)
 	basepath := filepath.Dir(b)
 	log.Printf("basepath:%s", basepath)
 	base := basepath[0:strings.Index(basepath, "pkg")]
-	path := base + "database/block.db"
+	path := base + "database/"
 	log.Printf("path:%s", path)
 
-	db, err := sqLite.NewConnection(path)
+	db, err := levelDB.NewConnection(path)
 	if err != nil {
-		log.Fatalf("FAILED connect to database:" + err.Error())
+		log.Fatalf("failed connect to database:" + err.Error())
 	}
+
+	repo := transaction.NewRepository(db, path+"key.db")
 
 	ctx := context.Background()
-	repo := transaction.NewRepository(db)
-	data, err := repo.GetALLTrans(ctx)
-	if errors.Is(err, util.ErrorNotFound) {
-		log.Fatalf("error-1:%s", err.Error())
-	} else if err != nil {
-		log.Fatalf("error-2:%s", err.Error())
+	last, err := repo.LastKey(ctx)
+	if err != nil {
+		log.Fatalf("failed LastKey:" + err.Error())
 	}
 
-	for _, value := range data {
-		log.Printf("id:%v", value.ID)
-	}
+	log.Printf("last:%s", last)
+
 }

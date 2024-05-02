@@ -1,73 +1,94 @@
 package transaction
 
 import (
-	"atp/payment/pkg/adapter/model"
-	"atp/payment/pkg/adapter/sqLite"
-	"atp/payment/pkg/utils/echos/util"
+	"atp/payment/pkg/adapter/levelDB"
 	"context"
+	"errors"
 
-	"gorm.io/gorm"
+	"github.com/syndtr/goleveldb/leveldb"
 )
 
 type repository struct {
-	provider sqLite.DatabaseI
+	provider levelDB.DatabaseI
+	path     string
 }
 
-func NewRepository(provider sqLite.DatabaseI) RepositoryI {
+func NewRepository(provider levelDB.DatabaseI, path string) RepositoryI {
 	return repository{
 		provider,
+		path,
 	}
 }
 
 type RepositoryI interface {
-	DoTransaction(ctx context.Context, fn func(ctxWithTx context.Context, dbt *gorm.DB) error) error
-	FindTransaction(ctx context.Context, key string) (model.Transaction, error)
-	GetLast(ctx context.Context) (model.Transaction, error)
-	GetALLTrans(ctx context.Context) ([]model.Transaction, error)
+	PUT(ctx context.Context, key, value string) error
+	GET(ctx context.Context, key string) (string, error)
+	GetALL(ctx context.Context) (map[string]string, error)
+	//LastKey(ctx context.Context) (string, error)
+
+	Save(ctx context.Context, key string) error
+	LastKey(ctx context.Context) (string, error)
 }
 
-func (r repository) DoTransaction(ctx context.Context, fn func(ctxWithTx context.Context, dbt *gorm.DB) error) error {
-	return r.provider.WithTransaction(ctx, fn)
+func (r repository) PUT(ctx context.Context, key, value string) error {
+	db := r.provider.Db(ctx).(*leveldb.DB)
+	err := db.Put([]byte(key), []byte(value), nil)
+	if err != nil {
+		errN := errors.New("failed when PUT key [" + key + "]->" + err.Error())
+		return errN
+	}
+	return nil
 }
 
-func (r repository) FindTransaction(ctx context.Context, key string) (model.Transaction, error) {
-	var data model.Transaction
-	db := r.provider.Db(ctx).(*gorm.DB)
-	err := db.Table(model.Transaction{}.TableName()).Where("key = ?", key).First(&data)
-	if err.RowsAffected == 0 || err.Error == gorm.ErrRecordNotFound {
-		return data, util.ErrorNotFound
+func (r repository) GET(ctx context.Context, key string) (string, error) {
+	var value string
+	db := r.provider.Db(ctx).(*leveldb.DB)
+	data, err := db.Get([]byte(key), nil)
+	if err != nil {
+		errN := errors.New("failed when GET key [" + key + "]->" + err.Error())
+		return value, errN
 	}
-	if err.Error != nil {
-		return data, err.Error
-	}
+	value = string(data)
+	return value, nil
+}
 
+func (r repository) GetALL(ctx context.Context) (map[string]string, error) {
+	var data = map[string]string{}
+
+	db := r.provider.Db(ctx).(*leveldb.DB)
+	iter := db.NewIterator(nil, nil)
+	for ok := iter.First(); ok; ok = iter.Next() {
+		key := iter.Key()
+		value := iter.Value()
+		data[string(key)] = string(value)
+	}
+	iter.Release()
+	err := iter.Error()
+	if err != nil {
+		errN := errors.New("failed when GetALL ->" + err.Error())
+		return data, errN
+	}
 	return data, nil
 }
 
-func (r repository) GetLast(ctx context.Context) (model.Transaction, error) {
-	var data model.Transaction
-	db := r.provider.Db(ctx).(*gorm.DB)
-	err := db.Table(model.Transaction{}.TableName()).Last(&data)
-	if err.RowsAffected == 0 || err.Error == gorm.ErrRecordNotFound {
-		return data, util.ErrorNotFound
+/*
+func (r repository) LastKey(ctx context.Context) (string, error) {
+	var key string
+	db := r.provider.Db(ctx).(*leveldb.DB)
+
+	iter := db.NewIterator(nil, nil)
+	ok := iter.Last()
+	if ok {
+		key = string(iter.Key())
+		//value := iter.Value()
 	}
-	if err.Error != nil {
-		return data, err.Error
+	iter.Release()
+	err := iter.Error()
+	if err != nil {
+		errN := errors.New("failed when LastKey ->" + err.Error())
+		return key, errN
 	}
 
-	return data, nil
+	return key, nil
 }
-
-func (r repository) GetALLTrans(ctx context.Context) ([]model.Transaction, error) {
-	var data []model.Transaction
-	db := r.provider.Db(ctx).(*gorm.DB)
-	err := db.Table(model.Transaction{}.TableName()).Find(&data)
-	if err.RowsAffected == 0 || err.Error == gorm.ErrRecordNotFound {
-		return data, util.ErrorNotFound
-	}
-	if err.Error != nil {
-		return data, err.Error
-	}
-
-	return data, nil
-}
+*/

@@ -1,7 +1,6 @@
 package blockchain
 
 import (
-	"atp/payment/pkg/adapter/model"
 	"atp/payment/pkg/repository/transaction"
 	"atp/payment/pkg/utils/domain"
 	"context"
@@ -20,5 +19,4 @@ func NewBlockChain(transRepo transaction.RepositoryI) Usecase {
 type Usecase interface {
 	CreateBlockchain(ctx context.Context, prevHash string) *domain.Blockchain
 	CreateBlock(ctx context.Context, a *domain.Blockchain, prevHash string) *domain.Block
-	LatestBlock(ctx context.Context) (model.Transaction, error)
 }

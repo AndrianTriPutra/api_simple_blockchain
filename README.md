@@ -1,17 +1,26 @@
-# api_simple_blockchain
+# simple_blockchain
 
 ## usecase
 - example for simple payment transaction
 
-## database
-- sqlite : https://medium.com/@andriantriputra/golang-general-chapter-3-sqlite-92c10fb29d9e
+## leveldb install
+- sudo apt update
+- sudo apt-get install libsnappy-dev wget curl build-essential cmake gcc sqlite3
+- VER=$(curl -s https://api.github.com/repos/google/leveldb/releases/latest | grep tag_name |  cut -d '"' -f 4)
+- wget https://github.com/google/leveldb/archive/${VER}.tar.gz -O leveldb.tar.gz
+- tar xvf leveldb.tar.gz
+- cd leveldb*/
+- mkdir -p build && cd build
+- cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build 
 
 ## get started
 - go mod tidy
 - go mod vendor
-- import postman_collection.json to postman
-- change port if needed
-- go run . 
+
+## run with
+- get all transaction : go run . getall
+- create transaction : go run . create
+- get transaction by key : go run . get key
 
 ## reference
 - https://youtu.be/RZ9MjCR4YW8?si=up6ySOnUS4Acq0P2
@@ -20,5 +29,9 @@
 
 
 ## note
-- not include consensus
+- not inclue consensus
 
+## to do
+- remove methode to read/write at key.db cause its not effective
+- for now i can't find methode to find last updated key from level db
+- i was try to used methode iter.Last but doesn't work
