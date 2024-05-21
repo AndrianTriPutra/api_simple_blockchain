@@ -34,7 +34,7 @@ func (bc *blockchain) NewBlock(ctx context.Context, prevHash string, data []*dom
 
 	err = bc.transRepo.Set(ctx, "temp", nowHash)
 	if err != nil {
-		log.Fatalf("FAILED NewBlock SET-genesis:" + err.Error())
+		log.Fatalf("FAILED NewBlock SET-temp:" + err.Error())
 	}
 
 	return b
