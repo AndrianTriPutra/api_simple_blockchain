@@ -66,25 +66,3 @@ func (r repository) GetALL(ctx context.Context) (map[string]string, error) {
 	}
 	return data, nil
 }
-
-/*
-func (r repository) LastKey(ctx context.Context) (string, error) {
-	var key string
-	db := r.provider.Db(ctx).(*leveldb.DB)
-
-	iter := db.NewIterator(nil, nil)
-	ok := iter.Last()
-	if ok {
-		key = string(iter.Key())
-		//value := iter.Value()
-	}
-	iter.Release()
-	err := iter.Error()
-	if err != nil {
-		errN := errors.New("failed when LastKey ->" + err.Error())
-		return key, errN
-	}
-
-	return key, nil
-}
-*/
