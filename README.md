@@ -16,11 +16,9 @@
 ## get started
 - go mod tidy
 - go mod vendor
-
-## run with
-- get all transaction : go run . getall
-- create transaction : go run . create
-- get transaction by key : go run . get key
+- import postman_collection.json to postman
+- change port if needed
+- go run 
 
 ## reference
 - https://youtu.be/RZ9MjCR4YW8?si=up6ySOnUS4Acq0P2
