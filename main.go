@@ -28,7 +28,6 @@ func main() {
 	repoTrans := transaction.NewRepository(db, path+".key.db")
 	appBC := blockchain.NewBlockChain(repoTrans)
 
-	log.Println("=========== GENESIS ============")
 	bc := appBC.CreateBlockchain(ctx, fmt.Sprintf("%x", [32]byte{}))
 
 	echoNew := echo.New()

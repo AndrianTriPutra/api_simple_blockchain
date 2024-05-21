@@ -24,10 +24,6 @@ type RepositoryI interface {
 	PUT(ctx context.Context, key, value string) error
 	GET(ctx context.Context, key string) (string, error)
 	GetALL(ctx context.Context) (map[string]string, error)
-	//LastKey(ctx context.Context) (string, error)
-
-	Save(ctx context.Context, key string) error
-	LastKey(ctx context.Context) (string, error)
 }
 
 func (r repository) PUT(ctx context.Context, key, value string) error {

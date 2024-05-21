@@ -22,16 +22,7 @@ func (h handler) Transaction(c echo.Context) error {
 
 	h.bc.GiveData(data)
 
-	prev, err := h.repo.LastKey(ctx)
-	if err != nil {
-		return util.CustomError{
-			ErrorType: util.ErrBadRequest,
-			Message:   "can't find key",
-			Cause:     "failed key",
-		}
-	}
-
-	block := h.ucase.CreateBlock(ctx, h.bc, prev)
+	block := h.ucase.CreateBlock(ctx, h.bc, "")
 
 	response := util.WrapSuccessResponse("success", block)
 	return c.JSON(http.StatusOK, response)

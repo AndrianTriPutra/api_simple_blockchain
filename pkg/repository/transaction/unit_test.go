@@ -27,7 +27,7 @@ func Test_LastKey(t *testing.T) {
 	repo := transaction.NewRepository(db, path+"key.db")
 
 	ctx := context.Background()
-	last, err := repo.LastKey(ctx)
+	last, err := repo.GET(ctx, "temp")
 	if err != nil {
 		log.Fatalf("failed LastKey:" + err.Error())
 	}

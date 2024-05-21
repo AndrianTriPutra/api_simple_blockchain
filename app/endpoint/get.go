@@ -55,6 +55,13 @@ func (h handler) GetALL(c echo.Context) error {
 		}
 	}
 
-	response := util.WrapSuccessResponse("success", data)
+	var new = map[string]string{}
+	for key, val := range data {
+		if key != "temp" {
+			new[string(key)] = string(val)
+		}
+	}
+
+	response := util.WrapSuccessResponse("success", new)
 	return c.JSON(http.StatusOK, response)
 }

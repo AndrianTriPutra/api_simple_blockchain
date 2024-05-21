@@ -30,8 +30,3 @@
 
 ## note
 - not inclue consensus
-
-## to do
-- remove methode to read/write at key.db cause its not effective
-- for now i can't find methode to find last updated key from level db
-- i was try to used methode iter.Last but doesn't work

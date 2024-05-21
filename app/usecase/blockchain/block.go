@@ -18,42 +18,25 @@ func (bc *blockchain) NewBlock(ctx context.Context, prevHash string, data []*dom
 	}
 	nowHash := b.Hash()
 
-	ctrans := false
-	prev, err := bc.transRepo.GetALL(ctx)
+	prev, err := bc.transRepo.GET(ctx, "temp")
 	if err != nil {
-		log.Fatalf("FAILED GetALLX:" + err.Error())
-	}
-
-	if len(prev) > 0 {
-		for _, val := range prev {
-			block := domain.Block{}
-			err = json.Unmarshal([]byte(val), &block)
-			if err != nil {
-				log.Fatalf("FAILED Unmarshalx:" + err.Error())
-			}
-
-			if block.Header.PrevHash == prevHash {
-				log.Println(" prevHash is EXIST [" + prevHash + "]")
-			} else {
-				ctrans = true
-			}
-		}
+		log.Fatalf("FAILED NewBlock GET:" + err.Error())
 	} else {
-		ctrans = true
+		log.Printf("key temp [%s] found", prev)
+		b.Header.PrevHash = prev
 	}
 
-	if ctrans {
-		js, _ := json.Marshal(b)
-		err := bc.transRepo.PUT(ctx, nowHash, string(js))
-		if err != nil {
-			log.Fatalf("FAILED NewBlock PUT:" + err.Error())
-		}
-
-		err = bc.transRepo.Save(ctx, nowHash)
-		if err != nil {
-			log.Fatalf("FAILED NewBlock Save key:" + err.Error())
-		}
+	js, _ := json.Marshal(b)
+	err = bc.transRepo.PUT(ctx, nowHash, string(js))
+	if err != nil {
+		log.Fatalf("FAILED NewBlock PUT-data:" + err.Error())
 	}
+
+	err = bc.transRepo.PUT(ctx, "temp", nowHash)
+	if err != nil {
+		log.Fatalf("FAILED NewBlock PUT-temp:" + err.Error())
+	}
+
 	return b
 }
 
