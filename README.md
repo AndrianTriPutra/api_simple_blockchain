@@ -4,7 +4,7 @@
 - example for simple payment transaction
 
 ## database
-- sqlite : https://medium.com/@andriantriputra/golang-general-chapter-3-sqlite-92c10fb29d9e
+- badger 
 
 ## get started
 - go mod tidy
@@ -15,8 +15,8 @@
 
 ## reference
 - https://youtu.be/RZ9MjCR4YW8?si=up6ySOnUS4Acq0P2
-- https://youtu.be/mYlHT9bB6OE?si=wXWbPm9StCOv1YqK
-- https://computingforgeeks.com/how-to-install-leveldb-on-ubuntu-linux/
+- https://youtu.be/szOZ3p-5YIc?si=NttaQ--BAlHQMWl-
+- https://github.com/tensor-programming/golang-blockchain/tree/part_3
 
 
 ## note

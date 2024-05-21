@@ -1,12 +1,54 @@
+# github.com/cespare/xxhash v1.1.0
+## explicit
+github.com/cespare/xxhash
+# github.com/cespare/xxhash/v2 v2.1.1
+## explicit; go 1.11
+github.com/cespare/xxhash/v2
+# github.com/dgraph-io/badger/v3 v3.2103.5
+## explicit; go 1.12
+github.com/dgraph-io/badger/v3
+github.com/dgraph-io/badger/v3/fb
+github.com/dgraph-io/badger/v3/options
+github.com/dgraph-io/badger/v3/pb
+github.com/dgraph-io/badger/v3/skl
+github.com/dgraph-io/badger/v3/table
+github.com/dgraph-io/badger/v3/trie
+github.com/dgraph-io/badger/v3/y
+# github.com/dgraph-io/ristretto v0.1.1
+## explicit; go 1.12
+github.com/dgraph-io/ristretto
+github.com/dgraph-io/ristretto/z
+github.com/dgraph-io/ristretto/z/simd
+# github.com/dustin/go-humanize v1.0.0
+## explicit
+github.com/dustin/go-humanize
+# github.com/gogo/protobuf v1.3.2
+## explicit; go 1.15
+github.com/gogo/protobuf/proto
 # github.com/golang-jwt/jwt v3.2.2+incompatible
 ## explicit
 github.com/golang-jwt/jwt
-# github.com/jinzhu/inflection v1.0.0
+# github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 ## explicit
-github.com/jinzhu/inflection
-# github.com/jinzhu/now v1.1.5
-## explicit; go 1.12
-github.com/jinzhu/now
+github.com/golang/glog
+# github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6
+## explicit
+github.com/golang/groupcache/lru
+# github.com/golang/protobuf v1.3.1
+## explicit
+github.com/golang/protobuf/proto
+# github.com/golang/snappy v0.0.3
+## explicit
+github.com/golang/snappy
+# github.com/google/flatbuffers v1.12.1
+## explicit
+github.com/google/flatbuffers/go
+# github.com/klauspost/compress v1.12.3
+## explicit; go 1.13
+github.com/klauspost/compress/fse
+github.com/klauspost/compress/huff0
+github.com/klauspost/compress/zstd
+github.com/klauspost/compress/zstd/internal/xxhash
 # github.com/labstack/echo/v4 v4.12.0
 ## explicit; go 1.18
 github.com/labstack/echo/v4
@@ -22,15 +64,22 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.20
 ## explicit; go 1.15
 github.com/mattn/go-isatty
-# github.com/mattn/go-sqlite3 v1.14.17
-## explicit; go 1.16
-github.com/mattn/go-sqlite3
+# github.com/pkg/errors v0.9.1
+## explicit
+github.com/pkg/errors
 # github.com/valyala/bytebufferpool v1.0.0
 ## explicit
 github.com/valyala/bytebufferpool
 # github.com/valyala/fasttemplate v1.2.2
 ## explicit; go 1.12
 github.com/valyala/fasttemplate
+# go.opencensus.io v0.22.5
+## explicit; go 1.13
+go.opencensus.io
+go.opencensus.io/internal
+go.opencensus.io/trace
+go.opencensus.io/trace/internal
+go.opencensus.io/trace/tracestate
 # golang.org/x/crypto v0.22.0
 ## explicit; go 1.18
 golang.org/x/crypto/acme
@@ -44,6 +93,8 @@ golang.org/x/net/http2
 golang.org/x/net/http2/h2c
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
+golang.org/x/net/internal/timeseries
+golang.org/x/net/trace
 # golang.org/x/sys v0.19.0
 ## explicit; go 1.18
 golang.org/x/sys/unix
@@ -56,15 +107,3 @@ golang.org/x/text/unicode/norm
 # golang.org/x/time v0.5.0
 ## explicit; go 1.18
 golang.org/x/time/rate
-# gorm.io/driver/sqlite v1.5.5
-## explicit; go 1.20
-gorm.io/driver/sqlite
-# gorm.io/gorm v1.25.9
-## explicit; go 1.18
-gorm.io/gorm
-gorm.io/gorm/callbacks
-gorm.io/gorm/clause
-gorm.io/gorm/logger
-gorm.io/gorm/migrator
-gorm.io/gorm/schema
-gorm.io/gorm/utils

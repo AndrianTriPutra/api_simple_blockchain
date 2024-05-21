@@ -21,9 +21,7 @@ func (h handler) Transaction(c echo.Context) error {
 	}
 
 	h.bc.GiveData(data)
-
-	prev, _ := h.ucase.LatestBlock(ctx)
-	block := h.ucase.CreateBlock(ctx, h.bc, prev.Key)
+	block := h.ucase.CreateBlock(ctx, h.bc, "")
 
 	response := util.WrapSuccessResponse("success", block)
 	return c.JSON(http.StatusOK, response)

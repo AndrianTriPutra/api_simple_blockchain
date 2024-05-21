@@ -1,6 +1,10 @@
 package main
 
 import (
+	"atp/payment/app/endpoint"
+	"atp/payment/app/usecase/blockchain"
+	"atp/payment/pkg/adapter/badGer"
+	"atp/payment/pkg/repository/transaction"
 	"context"
 	"crypto/tls"
 	"fmt"
@@ -9,18 +13,14 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
-	"atp/payment/app/endpoint"
-	"atp/payment/app/usecase/blockchain"
-	"atp/payment/pkg/adapter/sqLite"
-	"atp/payment/pkg/repository/transaction"
 )
 
 func main() {
 	log.Println("============= START ===============")
 	ctx := context.Background()
 
-	db, err := sqLite.NewConnection("database/block.db")
+	path := "database/"
+	db, err := badGer.NewConnection(path)
 	if err != nil {
 		log.Fatalf("FAILED connect to database:" + err.Error())
 	}
@@ -28,7 +28,6 @@ func main() {
 	repoTrans := transaction.NewRepository(db)
 	appBC := blockchain.NewBlockChain(repoTrans)
 
-	log.Println("=========== GENESIS ============")
 	bc := appBC.CreateBlockchain(ctx, fmt.Sprintf("%x", [32]byte{}))
 
 	echoNew := echo.New()
