@@ -24,7 +24,7 @@ func Test_LastKey(t *testing.T) {
 		log.Fatalf("failed connect to database:" + err.Error())
 	}
 
-	repo := transaction.NewRepository(db, path+"key.db")
+	repo := transaction.NewRepository(db)
 
 	ctx := context.Background()
 	last, err := repo.GET(ctx, "temp")

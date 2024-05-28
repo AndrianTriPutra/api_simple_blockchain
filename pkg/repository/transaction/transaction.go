@@ -10,13 +10,11 @@ import (
 
 type repository struct {
 	provider levelDB.DatabaseI
-	path     string
 }
 
-func NewRepository(provider levelDB.DatabaseI, path string) RepositoryI {
+func NewRepository(provider levelDB.DatabaseI) RepositoryI {
 	return repository{
 		provider,
-		path,
 	}
 }
 

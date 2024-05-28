@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("FAILED connect to database:" + err.Error())
 	}
 
-	repoTrans := transaction.NewRepository(db, path+".key.db")
+	repoTrans := transaction.NewRepository(db)
 	appBC := blockchain.NewBlockChain(repoTrans)
 
 	bc := appBC.CreateBlockchain(ctx, fmt.Sprintf("%x", [32]byte{}))
